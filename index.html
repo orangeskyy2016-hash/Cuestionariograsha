@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario: Estilos de Enseñanza según Grasha</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .question-container {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 4px solid #4facfe;
+        }
+
+        .question {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .likert-scale {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .scale-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .scale-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            accent-color: #4facfe;
+        }
+
+        .scale-label {
+            font-size: 0.85em;
+            text-align: center;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
+            display: none;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .results h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.8em;
+        }
+
+        .style-result {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 5px solid #4facfe;
+        }
+
+        .style-name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .style-score {
+            font-size: 1.1em;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .style-description {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 8px;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1em;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 8px 16px rgba(40, 167, 69, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(40, 167, 69, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .likert-scale {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .scale-option {
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+                padding: 10px;
+                background: white;
+                border-radius: 8px;
+            }
+
+            .scale-option input[type="radio"] {
+                margin-bottom: 0;
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Estilos de Enseñanza según Grasha</h1>
+            <p>Descubre tu estilo predominante de enseñanza</p>
+        </div>
+
+        <div class="content">
+            <form id="grashaForm">
+                <!-- Preguntas del cuestionario -->
+                <div class="question-container">
+                    <div class="question">1. Prefiero dar conferencias magistrales donde yo controlo completamente el contenido y el ritmo.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q1" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q1" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q1" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q1" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q1" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">2. Actúo como un modelo a seguir para mis estudiantes, demostrando cómo hacer las cosas.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q2" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q2" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q2" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q2" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q2" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">3. Facilito el aprendizaje guiando a los estudiantes hacia el descubrimiento por sí mismos.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q3" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q3" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q3" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q3" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q3" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">4. Permito que los estudiantes trabajen de forma independiente con mínima supervisión.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q4" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q4" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q4" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q4" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q4" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">5. Establezco reglas claras y espero que los estudiantes las sigan estrictamente.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q5" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q5" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q5" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q5" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q5" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">6. Demuestro técnicas y procedimientos para que los estudiantes los imiten.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q6" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q6" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q6" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q6" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q6" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">7. Hago preguntas que estimulan el pensamiento crítico de los estudiantes.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q7" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q7" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q7" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q7" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q7" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">8. Confío en que los estudiantes pueden aprender por sí mismos sin mucha dirección.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q8" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q8" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q8" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q8" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q8" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">9. Mantengo el control total sobre el contenido y la metodología de mis clases.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q9" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q9" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q9" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q9" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q9" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">10. Muestro entusiasmo por la materia para inspirar a mis estudiantes.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q10" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q10" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q10" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q10" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q10" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">11. Proporciono recursos y apoyo para que los estudiantes exploren por su cuenta.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q11" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q11" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q11" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q11" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q11" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">12. Espero que los estudiantes sean responsables de su propio aprendizaje.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q12" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q12" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q12" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q12" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q12" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">13. Considero que mi rol principal es transmitir conocimientos de manera eficiente.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q13" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q13" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q13" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q13" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q13" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">14. Superviso de cerca el trabajo de los estudiantes y les doy retroalimentación constante.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q14" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q14" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q14" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q14" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q14" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">15. Fomento la discusión y el intercambio de ideas entre estudiantes.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q15" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q15" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q15" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q15" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q15" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">16. Prefiero que los estudiantes trabajen de manera autónoma en sus proyectos.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q16" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q16" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q16" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q16" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q16" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">17. Establezco objetivos claros y evalúo el cumplimiento de los mismos.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q17" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q17" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q17" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q17" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q17" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">18. Comparto mis experiencias personales para enriquecer el aprendizaje.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q18" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q18" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q18" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q18" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q18" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">19. Ayudo a los estudiantes a desarrollar sus propias estrategias de aprendizaje.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q19" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q19" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q19" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q19" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q19" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">20. Doy libertad a los estudiantes para que elijan sus propios métodos de estudio.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q20" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q20" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q20" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q20" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q20" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">21. Prefiero estructurar las clases con un formato predecible y organizado.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q21" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q21" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q21" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q21" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q21" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">22. Demuestro procedimientos paso a paso para que los estudiantes los repliquen.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q22" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q22" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q22" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q22" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q22" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">23. Creo un ambiente donde los estudiantes se sienten cómodos explorando ideas.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q23" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q23" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q23" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q23" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q23" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">24. Permito que los estudiantes establezcan su propio ritmo de aprendizaje.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q24" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q24" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q24" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q24" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q24" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container">
+                    <div class="question">25. Considero que mi experiencia y conocimiento son la principal fuente de aprendizaje.</div>
+                    <div class="likert-scale">
+                        <div class="scale-option">
+                            <input type="radio" name="q25" value="1" required>
+                            <span class="scale-label">Totalmente en desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q25" value="2">
+                            <span class="scale-label">En desacuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q25" value="3">
+                            <span class="scale-label">Neutral</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q25" value="4">
+                            <span class="scale-label">De acuerdo</span>
+                        </div>
+                        <div class="scale-option">
+                            <input type="radio" name="q25" value="5">
+                            <span class="scale-label">Totalmente de acuerdo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">🎯 Obtener mi Perfil de Enseñanza</button>
+            </form>
+
+            <div id="results" class="results">
+                <h2>🎓 Tu Perfil de Estilos de Enseñanza</h2>
+                <div id="resultsContent"></div>
+                <button id="downloadBtn" class="download-btn">📄 Descargar Resultados</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentResults = '';
+
+        document.getElementById('grashaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Inicializar puntuaciones
+            const scores = {
+                experto: 0,
+                autoridad: 0,
+                modelo: 0,
+                facilitador: 0,
+                delegador: 0
+            };
+
+            // Mapeo de preguntas a estilos
+            const questionMapping = {
+                // Estilo Experto (Expert)
+                q1: 'autoridad',   // Conferencias magistrales
+                q5: 'autoridad',   // Reglas claras
+                q9: 'autoridad',   // Control total
+                q13: 'experto',    // Transmitir conocimientos
+                q17: 'autoridad',  // Objetivos claros
+                q21: 'autoridad',  // Estructura predecible
+                q25: 'experto',    // Experiencia como fuente
+
+                // Estilo Modelo Personal (Personal Model)
+                q2: 'modelo',      // Actuar como modelo
+                q6: 'modelo',      // Demostrar técnicas
+                q10: 'modelo',     // Mostrar entusiasmo
+                q14: 'modelo',     // Supervisión cercana
+                q18: 'modelo',     // Compartir experiencias
+                q22: 'modelo',     // Demostrar procedimientos
+
+                // Estilo Facilitador (Facilitator)
+                q3: 'facilitador', // Guiar al descubrimiento
+                q7: 'facilitador', // Preguntas que estimulan
+                q11: 'facilitador', // Proporcionar recursos
+                q15: 'facilitador', // Fomentar discusión
+                q19: 'facilitador', // Desarrollar estrategias
+                q23: 'facilitador', // Ambiente cómodo
+
+                // Estilo Delegador (Delegator)
+                q4: 'delegador',   // Trabajo independiente
+                q8: 'delegador',   // Confianza en autoaprendizaje
+                q12: 'delegador',  // Responsabilidad propia
+                q16: 'delegador',  // Trabajo autónomo
+                q20: 'delegador',  // Libertad de métodos
+                q24: 'delegador'   // Ritmo propio
+            };
+
+            // Calcular puntuaciones
+            for (let i = 1; i <= 25; i++) {
+                const questionName = `q${i}`;
+                const selectedValue = document.querySelector(`input[name="${questionName}"]:checked`);
+                
+                if (selectedValue && questionMapping[questionName]) {
+                    const style = questionMapping[questionName];
+                    scores[style] += parseInt(selectedValue.value);
+                }
+            }
+
+            // Calcular totales y porcentajes
+            const totalQuestions = {
+                experto: 2,
+                autoridad: 5,
+                modelo: 6,
+                facilitador: 6,
+                delegador: 6
+            };
+
+            const percentages = {};
+            for (const style in scores) {
+                percentages[style] = (scores[style] / (totalQuestions[style] * 5)) * 100;
+            }
+
+            // Encontrar el estilo predominante
+            const sortedStyles = Object.entries(percentages).sort((a, b) => b[1] - a[1]);
+
+            // Descripciones de los estilos
+            const styleDescriptions = {
+                experto: {
+                    name: "🎓 Experto",
+                    description: "Te enfocas en transmitir conocimientos especializados. Posees un dominio profundo de tu materia y tu autoridad se basa en tu experiencia y competencia académica. Los estudiantes te ven como la fuente principal de información."
+                },
+                autoridad: {
+                    name: "👨‍🏫 Autoridad Formal",
+                    description: "Mantienes un control estructurado del proceso de aprendizaje. Estableces reglas claras, objetivos específicos y expectativas definidas. Tu autoridad se basa en tu rol y posición institucional."
+                },
+                modelo: {
+                    name: "⭐ Modelo Personal",
+                    description: "Enseñas a través del ejemplo y la demostración. Los estudiantes aprenden observando e imitando tus métodos. Compartes experiencias personales y muestras entusiasmo por la materia."
+                },
+                facilitador: {
+                    name: "🤝 Facilitador",
+                    description: "Guías el proceso de aprendizaje haciendo preguntas, fomentando la discusión y ayudando a los estudiantes a descubrir conocimientos por sí mismos. Creas un ambiente colaborativo y de apoyo."
+                },
+                delegador: {
+                    name: "🎯 Delegador",
+                    description: "Promueves la autonomía y la independencia en el aprendizaje. Confías en que los estudiantes pueden dirigir su propio proceso educativo con mínima supervisión directa."
+                }
+            };
+
+            // Generar texto de resultados para descarga
+            currentResults = `CUESTIONARIO DE ESTILOS DE ENSEÑANZA SEGÚN GRASHA
+Fecha: ${new Date().toLocaleDateString()}
+
+RESULTADOS:
+===========
+
+`;
+
+            // Mostrar resultados
+            let resultsHTML = '';
+            sortedStyles.forEach((style, index) => {
+                const [styleName, percentage] = style;
+                const styleInfo = styleDescriptions[styleName];
+                const isMain = index === 0;
+                
+                resultsHTML += `
+                    <div class="style-result" style="${isMain ? 'border-left-color: #ff6b6b; background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);' : ''}">
+                        <div class="style-name">${styleInfo.name} ${isMain ? '(Predominante)' : ''}</div>
+                        <div class="style-score">${percentage.toFixed(1)}% de afinidad</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percentage}%; ${isMain ? 'background: linear-gradient(90deg, #ff6b6b, #ff8e8e);' : ''}"></div>
+                        </div>
+                        <div class="style-description">${styleInfo.description}</div>
+                    </div>
+                `;
+
+                // Agregar al texto de descarga
+                currentResults += `${index + 1}. ${styleInfo.name} ${isMain ? '(PREDOMINANTE)' : ''}
+   Afinidad: ${percentage.toFixed(1)}%
+   Descripción: ${styleInfo.description}
+
+`;
+            });
+
+            currentResults += `
+INTERPRETACIÓN:
+===============
+Tu estilo predominante es: ${styleDescriptions[sortedStyles[0][0]].name}
+
+Este resultado indica que tiendes a utilizar principalmente este enfoque en tu práctica docente, 
+aunque es importante recordar que los mejores educadores suelen combinar elementos de diferentes 
+estilos según las necesidades de sus estudiantes y el contexto educativo.
+
+RECOMENDACIONES:
+================
+- Reflexiona sobre cómo puedes incorporar elementos de otros estilos para enriquecer tu práctica docente
+- Considera las necesidades específicas de tus estudiantes al elegir tu enfoque pedagógico
+- Mantén flexibilidad para adaptar tu estilo según el contenido y el contexto de aprendizaje
+
+---
+Cuestionario basado en la teoría de Estilos de Enseñanza de Anthony Grasha
+`;
+
+            document.getElementById('resultsContent').innerHTML = resultsHTML;
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Función para descargar resultados
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            if (currentResults) {
+                const blob = new Blob([currentResults], { type: 'text/plain;charset=utf-8' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Resultados_Estilos_Enseñanza_Grasha_${new Date().toISOString().split('T')[0]}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96ea8685e6adddd5',t:'MTc1NTExMjM2MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
